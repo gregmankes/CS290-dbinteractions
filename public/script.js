@@ -9,7 +9,7 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 						"&reps="+addExercise.elements.reps.value+
 						"&weight="+addExercise.elements.weight.value+
 						"&date="+addExercise.elements.date.value;
-						
+	console.log(parameters);
 	if(addExercise.elements.measurement.checked){
 		parameters+="&measurement=1";
 	}
