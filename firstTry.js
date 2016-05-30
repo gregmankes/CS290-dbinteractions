@@ -58,9 +58,10 @@ app.get('/insert',function(req,res,next){
       return;
     } 
     
-    context.results = result.insertId;
-    console.log(context);
-    res.send(JSON.stringify(context));
+    // context.results = result.insertId;
+    // console.log(context);
+    // res.send(JSON.stringify(context));
+    res.render('home');
   });
 });
 
