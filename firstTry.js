@@ -52,7 +52,7 @@ app.get('/reset-table',function(req,res,next){
 
 app.get('/insert',function(req,res,next){
   var context = {};
-  mysql.pool.query("INSERT INTO `workouts` (`name`, `reps`, `weight`, `date`, `lbs`) VALUES (?, ?, ?, ?, ?)", [req.query.exercise, req.query.reps, req.query.weight, req.query.date, req.query.measurement], function(err, result){
+  pool.query("INSERT INTO `workouts` (`name`, `reps`, `weight`, `date`, `lbs`) VALUES (?, ?, ?, ?, ?)", [req.query.exercise, req.query.reps, req.query.weight, req.query.date, req.query.measurement], function(err, result){
     if(err){
       next(err);
       return;
