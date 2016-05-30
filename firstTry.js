@@ -57,8 +57,9 @@ app.get('/insert',function(req,res,next){
       next(err);
       return;
     } 
-    console.log(req.query);
+    
     context.results = result.insertId;
+    console.log(context);
     res.send(JSON.stringify(context));
   });
 });
