@@ -1,5 +1,5 @@
 document.getElementById('addItemSubmit').addEventListener('click',function(event){
-	event.preventDefault();
+	
 
 	var addExercise = document.getElementById("newExercise");
 
@@ -19,6 +19,6 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 
 	req.open("GET", qString +"?"+parameters);
 	req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-
-	
+	req.send();
+	event.preventDefault();
 });
