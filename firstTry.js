@@ -21,7 +21,7 @@ app.set('port', 3000);
 
 app.get('/', function(req, res, next){
   var context = {};
-  pool.query('SELECT FROM workouts', function(err, rows, fields){
+  pool.query('SELECT * FROM workouts', function(err, rows, fields){
     if(err){
       next(err);
       return;
