@@ -1,6 +1,5 @@
 document.getElementById('addItemSubmit').addEventListener('click',function(event){
 	
-
 	var addExercise = document.getElementById("newExercise");
 
 	var req = new XMLHttpRequest();
@@ -9,7 +8,8 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 	var parameters = "exercise="+addExercise.elements.exercise.value+
 						"&reps="+addExercise.elements.reps.value+
 						"&weight="+addExercise.elements.weight.value+
-						"&date="+addExercise.elements.date.value+
+						"&date="+addExercise.elements.date.value;
+						
 	if(addExercise.elements.measurement.checked){
 		parameters+="&measurement=1";
 	}
