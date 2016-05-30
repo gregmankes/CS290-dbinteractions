@@ -13,3 +13,36 @@
 	<input type="checkbox" name="measurement" id="cb" value="Pounds"><br>
 	<input type="submit" name="Add Item" value="Add Item">
 </form>
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Reps</th>
+		<th>Weight</th>
+		<th>Date</th>
+		<th>In Pounds?</th>
+	</tr>
+	{{#if results}}
+		{{#each results}}
+			<tr>
+				<td>{{this.name}}</td>
+				<td>{{this.reps}}</td>
+				<td>{{this.weight}}</td>
+				<td>{{this.date}}</td>
+				<td>In Pounds: {{this.lbs}}</td>
+				<td>
+					<form method="post">
+						<input type="hidden" name="id" value="{{this.id}}">
+						<input type="submit" name="Update" value="Update">
+				    </form>
+			    </td>
+				<td>
+					<form method="post">
+						<input type="hidden" name="id" value="{{this.id}}">
+						<input type="submit" name="Delete" value="Delete">
+				    </form>
+			    </td>
+			</tr>
+		{{/each}}
+	{{/if}}
+</table>
