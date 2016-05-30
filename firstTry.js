@@ -4,6 +4,8 @@ var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 var session = require('express-session');
 var bodyParser = require('body-parser');
+app.use('/',express.static(__dirname + '/public'));
+
 var mysql = require('mysql');
 var pool = mysql.createPool({
   host  : 'localhost',
@@ -20,16 +22,16 @@ app.set('view engine', 'handlebars');
 app.set('port', 3000);
 
 app.get('/', function(req, res, next){
-  var context = {};
-  pool.query('SELECT * FROM workouts', function(err, rows, fields){
+    var context = {};
+    pool.query('SELECT * FROM workouts', function(err, rows, fields){
     if(err){
-      next(err);
-      return;
+        next(err);
+        return;
     }
     context.results = JSON.stringify(rows);
     res.render('home', context);
-  })
-})
+    })
+});
 
 app.get('/reset-table',function(req,res,next){
   var context = {};
