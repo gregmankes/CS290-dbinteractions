@@ -4,7 +4,7 @@ var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 var session = require('express-session');
 var bodyParser = require('body-parser');
-app.use('/',express.static(__dirname + '/public'));
+app.use(express.static('public'));
 
 var mysql = require('mysql');
 var pool = mysql.createPool({
@@ -13,9 +13,6 @@ var pool = mysql.createPool({
     password: 'default',
     database: 'student'
 });
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({secret:'SuperSecretPassword'}));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -58,9 +55,6 @@ app.get('/insert',function(req,res,next){
       return;
     } 
     
-    // context.results = result.insertId;
-    // console.log(context);
-    // res.send(JSON.stringify(context));
     res.render('home');
   });
 });
