@@ -7,14 +7,14 @@
 	<input type="number" name="reps" id="reps "min="1" max="10000" value="{{results.reps}}"><br>
 	Weight:	
 	<input type="number" name="weight" id="weight "min="1" max="10000" value="{{results.weight}}"><br>
-	Date:	
-	<input type="date" name="date" id="date" value="{{results.date}}"><br>
 	LBS (checked) KG (unchecked):
 	{{#if results.lbs}}
 		<input type="checkbox" name="measurement" id="measurement" checked><br>
 	{{else}}
 		<input type="checkbox" name="measurement" id="measurement"><br>
 	{{/if}}
+	Date:	
+	<input type="date" name="date" id="date" value="{{results.date}}"><br>
 	<input type="hidden" name="id" value={{results.id}}>
 	<input type="submit" name="updateItem" value="Update Item" id="updateItem">
 </form>
