@@ -25,7 +25,20 @@ app.get('/', function(req, res, next){
         next(err);
         return;
     }
-    context.results = rows;
+    var list = [];
+
+    for(var row in rows){
+        var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date};
+        if(rows[row].lbs){
+            toPush.lbs = "LBS";
+        }
+        else{
+            toPush.lbs = "KG";
+        }
+        list.push(toPush);
+    }
+
+    context.results = list;
     res.render('home', context);
     })
 });
@@ -54,7 +67,7 @@ app.get('/insert',function(req,res,next){
       next(err);
       return;
     } 
-    
+
     res.render('home');
   });
 });
