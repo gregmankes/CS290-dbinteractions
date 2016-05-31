@@ -1,3 +1,4 @@
+// set up express
 var express = require('express');
 
 var app = express();
@@ -6,6 +7,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 app.use(express.static('public'));
 
+// set up mysql database
 var mysql = require('mysql');
 var pool = mysql.createPool({
     host  : 'localhost',
@@ -15,21 +17,29 @@ var pool = mysql.createPool({
     dateStrings: 'true'
 });
 
+// set up handlebars and the port
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', 3000);
 
+// root page
 app.get('/', function(req, res, next){
     var context = {};
+    // get all the elements in the database
     pool.query('SELECT * FROM workouts', function(err, rows, fields){
     if(err){
         next(err);
         return;
     }
     var list = [];
-
+    // for each element in the database, we add it to a list so that we can format
+    // the object to have LBS/KG instead of 1 and 0
     for(var row in rows){
-        var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date, 'id':rows[row].id};
+        var toPush = {'name': rows[row].name, 
+                    'reps': rows[row].reps, 
+                    'weight': rows[row].weight, 
+                    'date':rows[row].date, 
+                    'id':rows[row].id};
         if(rows[row].lbs){
             toPush.lbs = "LBS";
         }
@@ -38,12 +48,13 @@ app.get('/', function(req, res, next){
         }
         list.push(toPush);
     }
-
+    // send the list into the context and render
     context.results = list;
     res.render('home', context);
     })
 });
 
+// reset table function given by teacher
 app.get('/reset-table',function(req,res,next){
     var context = {};
     pool.query("DROP TABLE IF EXISTS workouts", function(err){
@@ -61,37 +72,48 @@ app.get('/reset-table',function(req,res,next){
     });
 });
 
+// insert get handler
 app.get('/insert',function(req,res,next){
   var context = {};
-  pool.query("INSERT INTO `workouts` (`name`, `reps`, `weight`, `date`, `lbs`) VALUES (?, ?, ?, ?, ?)", [req.query.exercise, req.query.reps, req.query.weight, req.query.date, req.query.measurement], function(err, result){
-    if(err){
-      next(err);
-      return;
-    } 
-
-    context.inserted = result.insertId;
-    res.send(JSON.stringify(context));
+  // insert the values from the request into the database
+  pool.query("INSERT INTO `workouts` (`name`, `reps`, `weight`, `date`, `lbs`) VALUES (?, ?, ?, ?, ?)", 
+    [req.query.exercise, 
+    req.query.reps, 
+    req.query.weight, 
+    req.query.date, 
+    req.query.measurement], 
+    function(err, result){
+        if(err){
+          next(err);
+          return;
+        } 
+        // we then send back the inserted id so that we can use it for update and delete
+        context.inserted = result.insertId;
+        res.send(JSON.stringify(context));
   });
 });
 
+// The delete get handler
 app.get('/delete', function(req, res, next) {
     var context = {};
-    pool.query("DELETE FROM `workouts` WHERE id = ?", [req.query.id], function(err, result) {
-        if(err){
-            next(err);
-            return;
-        }
-        pool.query('SELECT * FROM `workouts`', function(err, rows, fields){
+    // delete the element from the database
+    pool.query("DELETE FROM `workouts` WHERE id = ?", 
+        [req.query.id], 
+        function(err, result) {
             if(err){
                 next(err);
                 return;
-            } 
-        // context.results = JSON.stringify(rows);
-        // res.render('home',context);
-        });   
+            }
+        //     pool.query('SELECT * FROM `workouts`', function(err, rows, fields){
+        //         if(err){
+        //             next(err);
+        //             return;
+        //         } 
+        // });   
     });
 });
 
+// the first update handler
 app.get('/update',function(req, res, next){
     var context = {};
     pool.query('SELECT * FROM `workouts` WHERE id=?',[req.query.id], function(err, rows, fields){
