@@ -1,6 +1,6 @@
 <h1>Update the desired entry</h1>
 
-<form id="newExercise">
+<form action="/updateBack>
 	Exercise:	
 	<input type="text" name="exercise" id="exercise" value="{{results.name}}"><br>
 	Reps:	
@@ -15,7 +15,7 @@
 	{{else}}
 		<input type="checkbox" name="measurement" id="measurement"><br>
 	{{/if}}
-	<input type="submit" name="Add Item" value="Add Item" id="addItemSubmit">
+	<input type="hidden" name="id" value={{results.id}}>
+	<input type="submit" name="updateItem" value="Update Item" id="updateItem">
 </form>
 <br>
-
