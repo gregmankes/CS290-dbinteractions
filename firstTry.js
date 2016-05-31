@@ -126,7 +126,7 @@ app.get('/updateBack', function(req, res, next){
         }
         if(result.length == 1){
             var curVals = result[0];
-            mysql.pool.query('UPDATE `workouts` SET name=?, reps=?, weight=?, date=?, lbs=? WHERE id=?', 
+            pool.query('UPDATE `workouts` SET name=?, reps=?, weight=?, date=?, lbs=? WHERE id=?', 
             [req.query.exercise || curVals.name, 
             req.query.reps || curVals.reps, 
             req.query.weight || curVals.weight, 
