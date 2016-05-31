@@ -96,9 +96,9 @@ function deleteRow(tableId, id){
 	for(var i = 1; i < rowCount; i++){
 		var row = table.rows[i];
 		var dataCells = row.getElementsByTagName("td");
-		console.log(dataCells);
+		// console.log(dataCells);
 		var deleteCell = dataCells[dataCells.length -1];
-		console.log(deleteCell);
+		// console.log(deleteCell);
 		if(deleteCell.children[1].id === deleteString){
 			table.deleteRow(i);
 		}
