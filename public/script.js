@@ -28,19 +28,19 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 
 			var exerciseCell = document.createElement('td');
 			exerciseCell.textContent = addExercise.elements.exercise.value;
-			row.append(exerciseCell);
+			row.appendChild(exerciseCell);
 
 			var repCell = document.createElement('td');
 			repCell.textContent = addExercise.elements.reps.value;
-			row.append(repCell);
+			row.appendChild(repCell);
 
 			var weightCell = document.createElement('td');
 			weightCell.textContent = addExercise.elements.weight.value;
-			row.append(weightCell);
+			row.appendChild(weightCell);
 
 			var dateCell = document.createElement('td');
 			dateCell.textContent = addExercise.elements.date.value;
-			row.append(dateCell);
+			row.appendChild(dateCell);
 
 			var measurementCell = document.createElement('td');
 			if(addExercise.elements.measurement.checked){
@@ -49,7 +49,7 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 			else{
 				measurementCell.textContent = "LBS"
 			}
-			row.append(measurementCell);
+			row.appendChild(measurementCell);
 		}
 		else {
 	    	console.log('there was an error');
