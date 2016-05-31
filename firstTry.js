@@ -92,7 +92,30 @@ app.get('/delete', function(req, res, next) {
     });
 });
 
+app.get('/update',function(req, res, next){
+    var context = {};
+    pool.query('SELECT * FROM `workouts` WHERE id=?',[req.query.id], function(err, row, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        var list = [];
 
+        for(var row in rows){
+            var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date, 'id':rows[row].id};
+            if(rows[row].lbs){
+                toPush.lbs = "LBS";
+            }
+            else{
+                toPush.lbs = "KG";
+            }
+            list.push(toPush);
+        }
+
+        context.results = list[0];
+        res.render('update', context);
+    });
+});
 
 app.use(function(req,res){
     res.status(404);

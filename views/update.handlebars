@@ -1,0 +1,21 @@
+<h1>Update the desired entry</h1>
+
+<form id="newExercise">
+	Exercise:	
+	<input type="text" name="exercise" id="exercise" value="{{results.name}}"><br>
+	Reps:	
+	<input type="number" name="reps" id="reps "min="1" max="10000" value="{{results.reps}}"><br>
+	Weight:	
+	<input type="number" name="weight" id="weight "min="1" max="10000" value="{{results.weight}}"><br>
+	Date:	
+	<input type="date" name="date" id="date" value="{{results.date}}"><br>
+	LBS (checked) KG (unchecked):
+	{{#if results.lbs}}
+		<input type="checkbox" name="measurement" id="measurement" checked><br>
+	{{#else}}
+		<input type="checkbox" name="measurement" id="measurement"><br>
+	{{/if}}
+	<input type="submit" name="Add Item" value="Add Item" id="addItemSubmit">
+</form>
+<br>
+
