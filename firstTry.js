@@ -104,10 +104,10 @@ app.get('/update',function(req, res, next){
         for(var row in rows){
             var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date, 'id':rows[row].id};
             if(rows[row].lbs){
-                toPush.lbs = "LBS";
+                toPush.lbs = 1;
             }
             else{
-                toPush.lbs = "KG";
+                toPush.lbs = 0;
             }
             list.push(toPush);
         }
@@ -126,6 +126,12 @@ app.get('/updateBack', function(req, res, next){
         }
         if(result.length == 1){
             var curVals = result[0];
+            if(req.query.measurement === "on"){
+                req.query.measurement = "1";
+            }
+            else{
+                req.query.measurement = "0";
+            }
             pool.query('UPDATE `workouts` SET name=?, reps=?, weight=?, date=?, lbs=? WHERE id=?', 
             [req.query.exercise || curVals.name, 
             req.query.reps || curVals.reps, 
