@@ -22,6 +22,9 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 
 	req.addEventListener('load', function(){
 		if(req.status >= 200 && req.status < 400){
+			var response = JSON.parse(req.responseText);
+			var id = response.inserted;
+
 			var table = document.getElementById("dataTable");
 
 			var row = table.insertRow(-1);
@@ -50,6 +53,17 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 				measurementCell.textContent = "KG"
 			}
 			row.appendChild(measurementCell);
+
+			var updateCell = document.createElement('td');
+			var updateLink = document.createElement('a');
+			updateLink.setAttribute('href','/update?id='+id);
+			var updateButton = document.createElement('input');
+			updateButton.setAttribute('type','button');
+			updateButton.setAttribute('value','Update');
+			updateLink.appendChild(updateButton);
+			updateCell.appendChild(updateLink);
+			row.appendChild(updateCell);
+
 		}
 		else {
 	    	console.log('there was an error');

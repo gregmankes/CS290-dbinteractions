@@ -10,7 +10,7 @@
 	Date:	
 	<input type="date" name="date" id="date"><br>
 	LBS (checked) KG (unchecked):	
-	<input type="checkbox" name="measurement" id="measurement" value="Pounds"><br>
+	<input type="checkbox" name="measurement" id="measurement"><br>
 	<input type="submit" name="Add Item" value="Add Item" id="addItemSubmit">
 </form>
 <br>
@@ -32,10 +32,7 @@
 				<td>{{this.date}}</td>
 				<td>{{this.lbs}}</td>
 				<td>
-					<form method="post">
-						<input type="hidden" name="id" value="{{this.id}}">
-						<input type="submit" name="Update" value="Update">
-				    </form>
+					<a href="/update?id={{this.id}}"><input type="button" value="Update"></a>
 			    </td>
 				<td>
 					<form method="post">
