@@ -90,6 +90,8 @@ app.get('/insert',function(req,res,next){
         // we then send back the inserted id so that we can use it for update and delete
         context.inserted = result.insertId;
         res.send(JSON.stringify(context));
+        context.reset = "";
+        res.render("home",context)
   });
 });
 
