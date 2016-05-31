@@ -29,7 +29,7 @@ app.get('/', function(req, res, next){
     var list = [];
 
     for(var row in rows){
-        var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date};
+        var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date, 'id':rows[row].id};
         if(rows[row].lbs){
             toPush.lbs = "LBS";
         }
