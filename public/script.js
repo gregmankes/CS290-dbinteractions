@@ -44,10 +44,10 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 
 			var measurementCell = document.createElement('td');
 			if(addExercise.elements.measurement.checked){
-				measurementCell.textContent = "KG"
+				measurementCell.textContent = "LBS"
 			}
 			else{
-				measurementCell.textContent = "LBS"
+				measurementCell.textContent = "KG"
 			}
 			row.appendChild(measurementCell);
 		}
