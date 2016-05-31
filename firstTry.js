@@ -11,7 +11,8 @@ var pool = mysql.createPool({
     host  : 'localhost',
     user  : 'student',
     password: 'default',
-    database: 'student'
+    database: 'student',
+    dateStrings: 'true'
 });
 
 app.engine('handlebars', handlebars.engine);
@@ -28,7 +29,7 @@ app.get('/', function(req, res, next){
     var list = [];
 
     for(var row in rows){
-        var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':DATE_FORMAT(rows[row].date, '%Y-%m-%d')};
+        var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date};
         if(rows[row].lbs){
             toPush.lbs = "LBS";
         }

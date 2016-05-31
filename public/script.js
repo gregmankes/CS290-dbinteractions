@@ -17,7 +17,7 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 		parameters+="&measurement=0";
 	}
 
-	req.open("GET", qString +"?"+parameters);
+	req.open("GET", qString +"?"+parameters, true);
 	req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 
 	req.addEventListener('load', function(){
@@ -56,6 +56,6 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 		}
 	});
 
-	req.send();
+	req.send(qString +"?"+parameters);
 	event.preventDefault();
 });
