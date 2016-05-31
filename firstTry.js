@@ -104,97 +104,110 @@ app.get('/delete', function(req, res, next) {
                 next(err);
                 return;
             }
-        //     pool.query('SELECT * FROM `workouts`', function(err, rows, fields){
-        //         if(err){
-        //             next(err);
-        //             return;
-        //         } 
-        // });   
     });
 });
 
 // the first update handler
 app.get('/update',function(req, res, next){
     var context = {};
-    pool.query('SELECT * FROM `workouts` WHERE id=?',[req.query.id], function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-        var list = [];
-
-        for(var row in rows){
-            var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date, 'id':rows[row].id};
-            if(rows[row].lbs){
-                toPush.lbs = 1;
+    // Select the row from the database with the request's id
+    pool.query('SELECT * FROM `workouts` WHERE id=?',
+        [req.query.id], 
+        function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
             }
-            else{
-                toPush.lbs = 0;
-            }
-            list.push(toPush);
-        }
+            var list = [];
 
+            // make a list of JSON objects (we only need the first one)
+            // that is based on the row with the specifed id
+            for(var row in rows){
+                var toPush = {'name': rows[row].name, 
+                            'reps': rows[row].reps, 
+                            'weight': rows[row].weight, 
+                            'date':rows[row].date, 
+                            'lbs':rows[row].lbs,
+                            'id':rows[row].id};
+
+                list.push(toPush);
+            }
+        // send that object to the update.handlebars page
         context.results = list[0];
         res.render('update', context);
     });
 });
 
+// the handler for when the user is finished updating the entry
 app.get('/updateBack', function(req, res, next){
     var context = {};
-    pool.query("SELECT * FROM `workouts` WHERE id=?", [req.query.id], function(err, result){
-        if(err){
-            next(err);
-            return;
-        }
-        if(result.length == 1){
-            var curVals = result[0];
-            if(req.query.measurement === "on"){
-                req.query.measurement = "1";
+
+    // we want the user to be able to leave some values alone
+    // so we set it up so that if the user changes the value,
+    // we use it. Otherwise, we leave the value to its previous value
+    pool.query("SELECT * FROM `workouts` WHERE id=?", 
+        [req.query.id], 
+        function(err, result){
+            if(err){
+                next(err);
+                return;
             }
-            else{
-                req.query.measurement = "0";
-            }
-            pool.query('UPDATE `workouts` SET name=?, reps=?, weight=?, date=?, lbs=? WHERE id=?', 
-            [req.query.exercise || curVals.name, 
-            req.query.reps || curVals.reps, 
-            req.query.weight || curVals.weight, 
-            req.query.date || curVals.date, 
-            req.query.measurement, 
-            req.query.id],
-            function(err, result){
-                if(err){
-                    next(err);
-                    return;
+            if(result.length == 1){
+                // get the current values from the database
+                var curVals = result[0];
+
+                // set up the checkbox for the table
+                if(req.query.measurement === "on"){
+                    req.query.measurement = "1";
+                }
+                else{
+                    req.query.measurement = "0";
                 }
 
-                pool.query('SELECT * FROM `workouts`', function(err, rows, fields){
+                // make the query to the database so that we update the values in the database only if
+                // the values were changed. Otherwise, leave them to their previous values
+                pool.query('UPDATE `workouts` SET name=?, reps=?, weight=?, date=?, lbs=? WHERE id=?', 
+                [req.query.exercise || curVals.name, 
+                req.query.reps || curVals.reps, 
+                req.query.weight || curVals.weight, 
+                req.query.date || curVals.date, 
+                req.query.measurement, 
+                req.query.id],
+                function(err, result){
                     if(err){
                         next(err);
                         return;
                     }
-                    var list = [];
 
-                    for(var row in rows){
-                        var toPush = {'name': rows[row].name, 
-                        'reps': rows[row].reps,
-                        'weight': rows[row].weight, 
-                        'date':rows[row].date, 
-                        'id':rows[row].id};
-
-                        if(rows[row].lbs){
-                            toPush.lbs = "LBS";
+                    // select all of the values in the database and send them to be rendered
+                    pool.query('SELECT * FROM `workouts`', function(err, rows, fields){
+                        if(err){
+                            next(err);
+                            return;
                         }
-                        else{
-                            toPush.lbs = "KG";
-                        }
-                        list.push(toPush);
-                    }
+                        var list = [];
 
-                    context.results = list;
-                    res.render('home', context);
+                        for(var row in rows){
+                            var toPush = {'name': rows[row].name, 
+                            'reps': rows[row].reps,
+                            'weight': rows[row].weight, 
+                            'date':rows[row].date, 
+                            'id':rows[row].id};
+
+                            if(rows[row].lbs){
+                                toPush.lbs = "LBS";
+                            }
+                            else{
+                                toPush.lbs = "KG";
+                            }
+                            list.push(toPush);
+                        }
+
+                        context.results = list;
+                        res.render('home', context);
+                    });
                 });
-            });
-        }
+            }
     });
 });
 
