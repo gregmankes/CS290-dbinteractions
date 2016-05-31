@@ -83,7 +83,7 @@ function deleteRow(tableId, id){
 		var row = table.rows[i];
 		var dataCells = row.getElementsByTagName("td");
 		console.log(dataCells);
-		var deleteCell = dataCells[-1];
+		var deleteCell = dataCells[dataCells.length -1];
 		console.log(deleteCell);
 		if(deleteCell.children[1].id === deleteString){
 			table.deleteRow(i);
