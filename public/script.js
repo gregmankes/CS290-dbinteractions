@@ -41,10 +41,6 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 			weightCell.textContent = addExercise.elements.weight.value;
 			row.appendChild(weightCell);
 
-			var dateCell = document.createElement('td');
-			dateCell.textContent = addExercise.elements.date.value;
-			row.appendChild(dateCell);
-
 			var measurementCell = document.createElement('td');
 			if(addExercise.elements.measurement.checked){
 				measurementCell.textContent = "LBS"
@@ -53,6 +49,10 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 				measurementCell.textContent = "KG"
 			}
 			row.appendChild(measurementCell);
+
+			var dateCell = document.createElement('td');
+			dateCell.textContent = addExercise.elements.date.value;
+			row.appendChild(dateCell);
 
 			var updateCell = document.createElement('td');
 			var updateLink = document.createElement('a');
