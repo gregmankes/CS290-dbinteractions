@@ -64,6 +64,20 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 			updateCell.appendChild(updateLink);
 			row.appendChild(updateCell);
 
+			var deleteCell = document.createElement('td');
+			var deleteButton = document.createElement('input');
+			deleteButton.setAttribute('type','button');
+			deleteButton.setAttribute('name','delete');
+			deleteButton.setAttribute('value','Delete');
+			deleteButton.setAttribute('onClick', 'deleteRow("dataTable",'+id+')');
+			var deleteHidden = document.createElement('input');
+			deleteHidden.setAttribute('type','hidden');
+			deleteHidden.setAttribute('id', 'delete'+id);
+			deleteCell.appendChild(deleteButton);
+			deleteCell.appendChild(deleteHidden);
+			row.appendChild(deleteCell);
+
+
 		}
 		else {
 	    	console.log('there was an error');
