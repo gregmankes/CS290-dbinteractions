@@ -139,26 +139,32 @@ app.get('/updateBack', function(req, res, next){
                     return;
                 }
 
-            var list = [];
+                pool.query('SELECT * FROM `workouts`', function(err, rows, fields){
+                    if(err){
+                        next(err);
+                        return;
+                    }
+                    var list = [];
 
-            for(var row in rows){
-                var toPush = {'name': rows[row].name, 
-                'reps': rows[row].reps,
-                'weight': rows[row].weight, 
-                'date':rows[row].date, 
-                'id':rows[row].id};
+                    for(var row in rows){
+                        var toPush = {'name': rows[row].name, 
+                        'reps': rows[row].reps,
+                        'weight': rows[row].weight, 
+                        'date':rows[row].date, 
+                        'id':rows[row].id};
 
-                if(rows[row].lbs){
-                    toPush.lbs = "LBS";
-                }
-                else{
-                    toPush.lbs = "KG";
-                }
-                list.push(toPush);
-            }
+                        if(rows[row].lbs){
+                            toPush.lbs = "LBS";
+                        }
+                        else{
+                            toPush.lbs = "KG";
+                        }
+                        list.push(toPush);
+                    }
 
-            context.results = list;
-            res.render('home', context);
+                    context.results = list;
+                    res.render('home', context);
+                });
             });
         }
     });
