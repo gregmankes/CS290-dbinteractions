@@ -120,36 +120,48 @@ app.get('/update',function(req, res, next){
 app.get('/updateBack', function(req, res, next){
     var context = {};
     pool.query("SELECT * FROM `workouts` WHERE id=?", [req.query.id], function(err, result){
-    if(err){
-        next(err);
-        return;
-    }
-    if(result.length == 1){
-        var curVals = result[0];
-        mysql.pool.query('UPDATE `workouts` SET name=?, reps=?, weight=?, date=?, lbs=? WHERE id=?', 
-        [req.query.exercise || curVals.name, req.query.reps || curVals.reps, req.query.weight || curVals.weight, req.query.date || curVals.date, req.query.measurement, req.query.id],
-        function(err, result){
-            if(err){
-                next(err);
-                return;
-            }
-
-        var list = [];
-
-        for(var row in rows){
-            var toPush = {'name': rows[row].name, 'reps': rows[row].reps, 'weight': rows[row].weight, 'date':rows[row].date, 'id':rows[row].id};
-            if(rows[row].lbs){
-                toPush.lbs = "LBS";
-            }
-            else{
-                toPush.lbs = "KG";
-            }
-            list.push(toPush);
+        if(err){
+            next(err);
+            return;
         }
+        if(result.length == 1){
+            var curVals = result[0];
+            mysql.pool.query('UPDATE `workouts` SET name=?, reps=?, weight=?, date=?, lbs=? WHERE id=?', 
+            [req.query.exercise || curVals.name, 
+            req.query.reps || curVals.reps, 
+            req.query.weight || curVals.weight, 
+            req.query.date || curVals.date, 
+            req.query.measurement, 
+            req.query.id],
+            function(err, result){
+                if(err){
+                    next(err);
+                    return;
+                }
 
-        context.results = list;
-        res.render('home', context);
+            var list = [];
+
+            for(var row in rows){
+                var toPush = {'name': rows[row].name, 
+                'reps': rows[row].reps,
+                'weight': rows[row].weight, 
+                'date':rows[row].date, 
+                'id':rows[row].id};
+
+                if(rows[row].lbs){
+                    toPush.lbs = "LBS";
+                }
+                else{
+                    toPush.lbs = "KG";
+                }
+                list.push(toPush);
+            }
+
+            context.results = list;
+            res.render('home', context);
+            });
         }
+    });
 });
 
 app.use(function(req,res){
