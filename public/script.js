@@ -73,3 +73,35 @@ document.getElementById('addItemSubmit').addEventListener('click',function(event
 	req.send(qString +"?"+parameters);
 	event.preventDefault();
 });
+
+function deleteRow(tableId, id){
+	var table = document.getElementById(tableId);
+	var rowCount = table.rows.length;
+
+	var deleteString = "delete"+id;
+	for(var i = 1; i < rowCount; i++){
+		var row = table.rows[i];
+		var dataCells = row.getElementsByTagName("td");
+		var deleteCell = dataCells[-1];
+		if(deleteCell.children[1].id === deleteString){
+			table.deleteRow(i);
+		}
+
+	}
+
+	var req = new XMLHttpRequest();
+	var qString = "/delete";
+
+	req.open("GET", qString+"?id="+id, true);
+
+	req.addEventListener("load",function(){
+		if(req.status >= 200 && req.status < 400){
+	    console.log('delete request sent');
+		} else {
+		    console.log('there was an error');
+		}
+	});
+
+	req.send(qString+"?id="+id);
+
+}

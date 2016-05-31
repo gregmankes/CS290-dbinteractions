@@ -37,10 +37,8 @@
 					<a href="/update?id={{this.id}}"><input type="button" value="Update"></a>
 			    </td>
 				<td>
-					<form method="post">
-						<input type="hidden" name="id" value="{{this.id}}">
-						<input type="submit" name="Delete" value="Delete">
-				    </form>
+					<input type="button" name="delete" value="Delete" onClick="deleteRow('dataTable',{{this.id}})">
+					<input type="hidden id="delete"+{{this.id}}>
 			    </td>
 			</tr>
 		{{/each}}
